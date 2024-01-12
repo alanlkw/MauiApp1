@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MauiApp1"
+             x:Class="MauiApp1.MainPage">
+
+
+
+        <ContentPage.Resources>
+            <ResourceDictionary>
+                <local:SliderValueToColorConverter x:Key="SliderValueToColorConverter"/>
+                <local:SliderValueToTextConverter x:Key="SliderValueToTextConverter"/>
+            </ResourceDictionary>
+        </ContentPage.Resources>
+        <StackLayout>
+            <Grid VerticalOptions="CenterAndExpand"
+              RowDefinitions="*"
+              ColumnDefinitions="auto,*">
+                <Label x:Name="label1" Grid.Row="0"
+                   Grid.Column="0"
+                   Margin="20"
+                   HorizontalOptions="CenterAndExpand"/>
+                <Slider x:Name="slider1" Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalOptions="FillAndExpand"/>
+                <Label x:Name="label2" Grid.Row="1"
+                   Grid.ColumnSpan="2"
+                   HorizontalOptions="CenterAndExpand"/>
+                <!-- Add a BoxView to display the slider bar color -->
+                <BoxView Grid.Row="0"
+                     Grid.Column="1"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="Center"
+                     HeightRequest="10">
+                    <!-- Bind the Color property to the slider value and use the converter -->
+                    <BoxView.Color>
+                        <Binding Source="{x:Reference slider1}"
+                             Path="Value"
+                             Converter="{StaticResource SliderValueToColorConverter}"/>
+                    </BoxView.Color>
+                </BoxView>
+                <!-- Bind the label1 text to the slider value and display the value without decimal place -->
+                <Label x:Name="label1" Grid.Row="0"
+                   Grid.Column="0"
+                   Margin="20"
+                   HorizontalOptions="CenterAndExpand"
+                   Text="{Binding Source={x:Reference slider1}, Path=Value, StringFormat={}{0:#}}"/>
+                <!-- Bind the label2 text and text color to the slider value and use the converter -->
+                <Label x:Name="label2" Grid.Row="1"
+                   Grid.ColumnSpan="2"
+                   HorizontalOptions="CenterAndExpand">
+                    <Label.Text>
+                        <Binding Source="{x:Reference slider1}"
+                             Path="Value"
+                             Converter="{StaticResource SliderValueToTextConverter}"/>
+                    </Label.Text>
+                    <Label.TextColor>
+                        <Binding Source="{x:Reference slider1}"
+                             Path="Value"
+                             Converter="{StaticResource SliderValueToColorConverter}"/>
+                    </Label.TextColor>
+                </Label>
+                
+            </Grid>
+        </StackLayout>
+    </ContentPage>
+
+
